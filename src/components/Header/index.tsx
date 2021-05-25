@@ -1,12 +1,20 @@
-import logoImg from '../../assets/logo.png'
+import { useState } from 'react'
+import logoImg from '../../assets/logo.jpg'
+import EngeGif from '../../assets/newengeman.gif'
 
 import { Container, Content } from './styles'
 
+
 export function Header() {
+  let [img, setImg] = useState(EngeGif)
+    setTimeout(() => {
+      setImg(logoImg)
+    }, 7000)
+
   return (
     <Container>
       <Content>
-        <img src={logoImg} alt="engeman" />
+        <img src={img} alt="engeman" />
         <button type="button">Botao</button>
       </Content>
     </Container>

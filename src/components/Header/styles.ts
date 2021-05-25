@@ -14,8 +14,8 @@ export const Content = styled.div`
     justify-content: space-between;
 
     img {
-        max-width: 10rem;
-        max-height: 10rem;
+        max-width: 7rem;
+        max-height: 7rem;
         border-radius: 0.25rem;
     }
 
