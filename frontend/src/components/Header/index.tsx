@@ -9,7 +9,7 @@ export function Header() {
   let [img, setImg] = useState(EngeGif)
     setTimeout(() => {
       setImg(logoImg)
-    }, 7000)
+    }, 6100)
 
   return (
     <Container>

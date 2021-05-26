@@ -19,7 +19,7 @@ export const Container = styled.div`
       color: var(--text-title);
       font-weight: 400;
       padding: 1rem 1rem;
-      text-align: left;
+      text-align: center;
       line-height: 1rem;
     }
 
