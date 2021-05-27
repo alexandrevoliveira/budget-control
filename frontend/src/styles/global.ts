@@ -1,11 +1,12 @@
-import { createGlobalStyle } from 'styled-components'
+import styled, { createGlobalStyle } from 'styled-components'
 
 export const GlobalStyle = createGlobalStyle`
   :root {
     --red: #e52e4d;
     --blue: #5429cc;
     --green: #33CC95;
-
+    
+    --orange-engeman: #f34b24;
     --blue-light: #6933ff;
 
     --text-title: #363f5f;
@@ -53,4 +54,9 @@ export const GlobalStyle = createGlobalStyle`
     opacity: 0.6;
     cursor: not-allowed;
   }
+`;
+
+export const Container = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 `;

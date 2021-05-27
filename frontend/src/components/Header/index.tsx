@@ -15,7 +15,8 @@ export function Header() {
     <Container>
       <Content>
         <img src={img} alt="engeman" />
-        <button type="button">Botao</button>
+        <h3>gestão comercial</h3>
+        <button type="button">sair</button>
       </Content>
     </Container>
   )

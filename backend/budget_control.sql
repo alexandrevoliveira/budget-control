@@ -12,11 +12,11 @@ truncate table orders RESTART IDENTITY cascade;
 CREATE TABLE "orders" (
     "id" SERIAL PRIMARY KEY,
     "po" text,
+    "ac" text,
     "status" text DEFAULT 'pendente',
     "budgetist" text,
     "weight" int,
     "stage" text DEFAULT 'acolhimento',
-    "ac" text,
     "modality" text DEFAULT 'fechada',
     "object" text DEFAULT 'objeto',
     "company" text,

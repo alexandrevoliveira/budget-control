@@ -1,28 +1,39 @@
 import styled from 'styled-components'
+import { transparentize } from 'polished';
 
 export const Container = styled.header`
-    background: var(--blue);
+    background: white;
+    border-bottom: .5rem solid var(--orange-engeman);
 `;
 
 export const Content = styled.div`
-    max-width: 1120px;
-    margin: 0 auto;
+    /* max-width: 1120px; */
+    margin: 0 1rem;
 
-    padding: 2rem 1rem 2rem;
+    padding: .25rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
 
     img {
-        max-width: 7rem;
-        max-height: 7rem;
+        max-width: 15rem;
+        max-height: 15rem;
         border-radius: 0.25rem;
     }
 
+    h3 {
+        font-size: 2.5rem;
+        font-weight: 500;
+        text-transform: capitalize;
+        color: var(--orange-engeman);
+        align-self: left;
+    }
+
     button {
+        text-transform: uppercase;
         font-size: 1rem;
         color: #FFF;
-        background: var(--blue-light);
+        background: ${transparentize(0.1, '#f34b24')};
         border: 0;
         padding: 0 2rem;
         border-radius: 0.25rem;

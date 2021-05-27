@@ -1,13 +1,17 @@
+import { AsideBar } from "./components/AsideBar";
 import { Dashboard } from "./components/Dashboard";
 import { Header } from "./components/Header";
-import { GlobalStyle } from "./styles/global";
+import { Container, GlobalStyle } from "./styles/global";
 
 export function App() {
   return (
     <>
     <Header />
 
-    <Dashboard />
+    <Container>
+      <AsideBar />
+      <Dashboard />
+    </Container>
 
     <GlobalStyle />
     </>
