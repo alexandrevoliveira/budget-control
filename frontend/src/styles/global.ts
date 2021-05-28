@@ -58,5 +58,5 @@ export const GlobalStyle = createGlobalStyle`
 
 export const Container = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 15rem 1fr;
 `;

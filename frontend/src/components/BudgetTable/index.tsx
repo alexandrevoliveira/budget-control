@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { api } from "../../services/api";
-import { Container } from "./styles";
+import { BTable, Container, Pagination, PaginationButton, PaginationItem } from "./styles";
 
 interface Order {
   id: number;
@@ -17,19 +17,36 @@ interface Order {
   created_at: string;
   updated_at: string;
   delivered_at: string;
-}
+};
+
 
 export function BudgetTable() {
-  const [orders, setOrders] = useState<Order[]>([])
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [total, setTotal] = useState(0);
+  const [limit, setLimit] = useState(5);
+  const [pages, setPages] = useState<number[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    api.get('pedidos')
-      .then(response => setOrders(response.data.orders))
-  }, [])
+    api.get(`pedidos?page=${currentPage}&limit=${limit}`)
+      .then(response => {
+        setOrders(response.data.orders);
+        setTotal(orders.length);
+      });
+
+      const totalPages = Math.ceil(total / limit);
+
+      let arrayPages:number[] = []
+      for (let i = 1; i <= totalPages; i++) {
+        arrayPages.push(i)
+      }
+
+      setPages(arrayPages)
+  }, []);
 
   return (
     <Container className="budget-table">
-      <table>
+      <BTable>
         <thead>
           <tr>
             <th>#PO</th>
@@ -70,7 +87,24 @@ export function BudgetTable() {
             </tr>
           ))}
         </tbody>
-      </table>
+        </BTable>
+        <Pagination>
+          <div>Qnt {total}</div>
+          <PaginationButton>
+            <PaginationItem>{'<<'}</PaginationItem>
+            <PaginationItem>{'<'}</PaginationItem>
+            {pages.map((page) => (
+              <PaginationItem
+                key={page}
+                onClick={() => setCurrentPage(page)}
+              >
+                {page}
+              </PaginationItem>
+            ))}
+            <PaginationItem>{'>'}</PaginationItem>
+            <PaginationItem>{'>>'}</PaginationItem>
+          </PaginationButton>
+        </Pagination>
     </Container>
   )
 }

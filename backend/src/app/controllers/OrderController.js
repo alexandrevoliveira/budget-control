@@ -5,7 +5,11 @@ let Order = new OrderClass()
 module.exports = {
     async index(req, res) {
         try {
-            let orders = await Order.findAll()
+            let { page, limit } = req.query
+
+            let offset = limit * (page - 1)
+
+            let orders = await Order.search(limit, offset)
 
             return res.status(200).json({orders})
         } catch (err) {
