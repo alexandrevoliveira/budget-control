@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { api } from "../../services/api";
-import { BTable, Container, Pagination, PaginationButton, PaginationItem } from "./styles";
+import { BTable, Container, Header, Pagination, PaginationButton, PaginationItem } from "./styles";
 
 interface Order {
   id: number;
@@ -19,7 +19,6 @@ interface Order {
   delivered_at: string;
 };
 
-
 export function BudgetTable() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [total, setTotal] = useState(0);
@@ -28,24 +27,41 @@ export function BudgetTable() {
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    api.get(`pedidos?page=${currentPage}&limit=${limit}`)
+    api.get(`/pedidos?page=${currentPage}&limit=${limit}`)
       .then(response => {
+        setTotal(response.data.allOrdersLength);
+        
+        const totalPages = Math.ceil(total / limit);
+        
+        const arrayPages:number[] = [];
+        for(let i = 1; i <= totalPages; i++) {
+          arrayPages.push(i)
+        }
+        
+        setPages(arrayPages)
         setOrders(response.data.orders);
-        setTotal(orders.length);
       });
+  }, [limit, total, currentPage]);
 
-      const totalPages = Math.ceil(total / limit);
-
-      let arrayPages:number[] = []
-      for (let i = 1; i <= totalPages; i++) {
-        arrayPages.push(i)
-      }
-
-      setPages(arrayPages)
+  const limits = useCallback((e) => {
+    setLimit(e.target.value);
+    setCurrentPage(1);
   }, []);
 
   return (
     <Container className="budget-table">
+      <Header>
+        <h3>Tabela de Pedidos de Orçamento</h3>
+        <div className="orders-limit">
+          <p>Itens por página</p>
+          <select onChange={limits}>
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="100">100</option>
+          </select>
+        </div>
+      </Header>
       <BTable>
         <thead>
           <tr>
@@ -89,20 +105,37 @@ export function BudgetTable() {
         </tbody>
         </BTable>
         <Pagination>
-          <div>Qnt {total}</div>
+          <h3 className="title">Total: {total}</h3>
           <PaginationButton>
-            <PaginationItem>{'<<'}</PaginationItem>
-            <PaginationItem>{'<'}</PaginationItem>
-            {pages.map((page) => (
+            {currentPage > 1 && (
+              <PaginationItem onClick={() => setCurrentPage(1)}>
+                {'<<'}
+              </PaginationItem>
+            )}
+            {currentPage > 1 && (
+              <PaginationItem onClick={() => setCurrentPage(currentPage - 1)}>
+                {'<'}
+              </PaginationItem>
+            )}
+            {pages.map(page => (
               <PaginationItem
                 key={page}
+                isSelected={page === currentPage}
                 onClick={() => setCurrentPage(page)}
               >
                 {page}
               </PaginationItem>
             ))}
-            <PaginationItem>{'>'}</PaginationItem>
-            <PaginationItem>{'>>'}</PaginationItem>
+            {currentPage < pages.length && (
+              <PaginationItem onClick={() => setCurrentPage(currentPage + 1)}>
+                {'>'}
+              </PaginationItem>
+            )}
+            {currentPage < pages.length && (
+              <PaginationItem onClick={() => setCurrentPage(pages.length)}>
+                {'>>'}
+              </PaginationItem>
+            )}
           </PaginationButton>
         </Pagination>
     </Container>

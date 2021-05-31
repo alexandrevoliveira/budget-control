@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { darken } from 'polished'
+import { darken } from 'polished';
 
 export const Container = styled.aside`
   background: ${darken(0.1, '#f0f2f5')};

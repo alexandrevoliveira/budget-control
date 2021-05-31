@@ -5,8 +5,10 @@ export const GlobalStyle = createGlobalStyle`
     --red: #e52e4d;
     --blue: #5429cc;
     --green: #33CC95;
+    --grey: #6d6d6d;
     
     --orange-engeman: #f34b24;
+    --orange-button: #3991ff;
     --blue-light: #6933ff;
 
     --text-title: #363f5f;
@@ -20,6 +22,8 @@ export const GlobalStyle = createGlobalStyle`
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  text-decoration: none;
+  list-style-type: none;
   }
 
   html {
@@ -35,6 +39,10 @@ export const GlobalStyle = createGlobalStyle`
   body {
     background: var(--background);
     -webkit-font-smoothing: antialiased;
+  }
+
+  html, body {
+    min-height: 100vh;
   }
 
   body, input, text-area, button {
@@ -57,6 +65,7 @@ export const GlobalStyle = createGlobalStyle`
 `;
 
 export const Container = styled.div`
+  min-height: 100vh;
   display: grid;
   grid-template-columns: 15rem 1fr;
 `;

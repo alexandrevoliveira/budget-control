@@ -12,6 +12,7 @@ module.exports = class Order extends Base {
         let query = `
             SELECT *
             FROM orders
+            ORDER BY id
             LIMIT ${limit} OFFSET ${offset}
         `
 
