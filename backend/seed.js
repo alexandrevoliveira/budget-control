@@ -6,7 +6,7 @@ async function createOrders() {
     let Order = new OrderModel()
     const orders = await Order.findAll()
 
-    while (orders.length <= 20) {
+    while (orders.length <= 222) {
         orders.push({
             po: faker.datatype.number(99999).toString(),
             budgetist: faker.name.firstName(),

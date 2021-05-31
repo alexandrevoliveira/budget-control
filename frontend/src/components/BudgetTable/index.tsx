@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { api } from "../../services/api";
-import { BTable, Container, Header, Pagination, PaginationButton, PaginationItem } from "./styles";
+import { BTable, Container, FilterTable, Header, Limit, Pagination, PaginationButton, PaginationItem } from "./styles";
 
 interface Order {
   id: number;
@@ -24,6 +24,7 @@ export function BudgetTable() {
   const [total, setTotal] = useState(0);
   const [limit, setLimit] = useState(5);
   const [pages, setPages] = useState<number[]>([]);
+  const [totalPages, setTotalPages] = useState(1)
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
@@ -31,14 +32,19 @@ export function BudgetTable() {
       .then(response => {
         setTotal(response.data.allOrdersLength);
         
-        const totalPages = Math.ceil(total / limit);
+        setTotalPages(Math.ceil(total / limit));
         
+        const selectedPage = currentPage;
         const arrayPages:number[] = [];
         for(let i = 1; i <= totalPages; i++) {
-          arrayPages.push(i)
+          const pagesBeforeSelectedPage = i >= selectedPage - 2;
+          const pagesAfterSelectedPage = i <= selectedPage + 2;
+          if(pagesBeforeSelectedPage && pagesAfterSelectedPage) {
+            arrayPages.push(i)
+          }
         }
         
-        setPages(arrayPages)
+        setPages(arrayPages);
         setOrders(response.data.orders);
       });
   }, [limit, total, currentPage]);
@@ -51,17 +57,93 @@ export function BudgetTable() {
   return (
     <Container className="budget-table">
       <Header>
-        <h3>Tabela de Pedidos de Orçamento</h3>
-        <div className="orders-limit">
-          <p>Itens por página</p>
-          <select onChange={limits}>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="25">25</option>
-            <option value="100">100</option>
-          </select>
-        </div>
+        <h3>Pedidos de Orçamento - Gerenciar</h3>
       </Header>
+
+      <FilterTable>
+        <div className="fields">
+          <p>Orcamentista</p>
+          <input type="text"/>
+        </div>
+        <div className="fields">
+          <p>Orcamentista</p>
+          <input type="text"/>
+        </div>
+        <div className="fields">
+          <p>Orcamentista</p>
+          <input type="text"/>
+        </div>
+        <div className="fields">
+          <p>Orcamentista</p>
+          <input type="text"/>
+        </div>
+        <div className="fields">
+          <p>Orcamentista</p>
+          <input type="text"/>
+        </div>
+        <div className="fields">
+          <p>Orcamentista</p>
+          <input type="text"/>
+        </div>
+        <div className="fields">
+          <p>Orcamentista</p>
+          <input type="text"/>
+        </div>
+        <div className="fields">
+          <p>Orcamentista</p>
+          <input type="text"/>
+        </div>
+      </FilterTable>
+
+      <Pagination>
+          <h3 className="title">Total: {total}</h3>
+          
+          <PaginationButton>
+            {currentPage > 1 && (
+              <PaginationItem onClick={() => setCurrentPage(1)}>
+                {'<<'}
+              </PaginationItem>
+            )}
+            {currentPage > 1 && (
+              <PaginationItem onClick={() => setCurrentPage(currentPage - 1)}>
+                {'<'}
+              </PaginationItem>
+            )}
+            {
+            pages.map(page => (
+              <PaginationItem
+                key={page}
+                isSelected={page === currentPage}
+                onClick={() => setCurrentPage(page)}
+              >
+                {page}
+              </PaginationItem>
+            ))
+            }
+            {currentPage < totalPages && (
+              <PaginationItem onClick={() => setCurrentPage(currentPage + 1)}>
+                {'>'}
+              </PaginationItem>
+            )}
+            {currentPage < totalPages && (
+              <PaginationItem onClick={() => setCurrentPage(totalPages)}>
+                {'>>'}
+                {console.log(totalPages)}
+              </PaginationItem>
+            )}
+          </PaginationButton>
+
+          <Limit>
+            <p>Itens por página</p>
+            <select onChange={limits}>
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="100">100</option>
+              <option value={total}>Todos</option>
+            </select>
+          </Limit>
+        </Pagination>
       <BTable>
         <thead>
           <tr>
@@ -106,6 +188,7 @@ export function BudgetTable() {
         </BTable>
         <Pagination>
           <h3 className="title">Total: {total}</h3>
+
           <PaginationButton>
             {currentPage > 1 && (
               <PaginationItem onClick={() => setCurrentPage(1)}>
@@ -117,7 +200,8 @@ export function BudgetTable() {
                 {'<'}
               </PaginationItem>
             )}
-            {pages.map(page => (
+            {
+            pages.map(page => (
               <PaginationItem
                 key={page}
                 isSelected={page === currentPage}
@@ -125,18 +209,31 @@ export function BudgetTable() {
               >
                 {page}
               </PaginationItem>
-            ))}
-            {currentPage < pages.length && (
+            ))
+            }
+            {currentPage < totalPages && (
               <PaginationItem onClick={() => setCurrentPage(currentPage + 1)}>
                 {'>'}
               </PaginationItem>
             )}
-            {currentPage < pages.length && (
-              <PaginationItem onClick={() => setCurrentPage(pages.length)}>
+            {currentPage < totalPages && (
+              <PaginationItem onClick={() => setCurrentPage(totalPages)}>
                 {'>>'}
+                {console.log(totalPages)}
               </PaginationItem>
             )}
           </PaginationButton>
+
+          <Limit>
+            <p>Itens por página</p>
+            <select onChange={limits}>
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="100">100</option>
+              <option value={total}>Todos</option>
+            </select>
+          </Limit>
         </Pagination>
     </Container>
   )
