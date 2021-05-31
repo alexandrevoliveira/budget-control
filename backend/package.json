@@ -1,7 +1,7 @@
 {
-  "name": "easyjob",
+  "name": "budget_control",
   "version": "1.0.0",
-  "description": "easyjob",
+  "description": "Software de pedido de orçamento da Engeman",
   "main": "server.js",
   "scripts": {
     "debug": "nodemon --inspect=0.0.0.0:9229 src/server.js",

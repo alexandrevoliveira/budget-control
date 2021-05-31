@@ -7,19 +7,14 @@ module.exports = class Order extends Base {
         super({ table: 'orders' })
     }
 
-    async search({ filter }) {
+    async search(limit, offset) {
 
         let query = `
             SELECT *
             FROM orders
-            WHERE 1 = 1
-            `
-
-        // if (filter) {
-        //     query += `
-        //         OR orders.budgetist ilike '%${filter}%'
-        //     `
-        // }
+            ORDER BY id
+            LIMIT ${limit} OFFSET ${offset}
+        `
 
         const results = await db.query(query)
         return results.rows
