@@ -7,13 +7,12 @@ module.exports = class Order extends Base {
         super({ table: 'orders' })
     }
 
-    async search(limit, offset) {
+    async search() {
 
         let query = `
             SELECT *
             FROM orders
             ORDER BY id
-            LIMIT ${limit} OFFSET ${offset}
         `
 
         const results = await db.query(query)

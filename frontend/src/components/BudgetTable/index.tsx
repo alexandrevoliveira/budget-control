@@ -28,7 +28,7 @@ export function BudgetTable() {
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    api.get(`/pedidos?page=${currentPage}&limit=${limit}`)
+    api.get(`/pedidos`)
       .then(response => {
         setTotal(response.data.allOrdersLength);
         
@@ -43,11 +43,14 @@ export function BudgetTable() {
             arrayPages.push(i)
           }
         }
+
+        let initial = limit * (selectedPage - 1),
+            offset = limit * selectedPage
         
         setPages(arrayPages);
-        setOrders(response.data.orders);
+        setOrders(response.data.orders.slice(initial,offset));
       });
-  }, [limit, total, currentPage]);
+  }, [limit, total, currentPage, totalPages]);
 
   const limits = useCallback((e) => {
     setLimit(e.target.value);
@@ -147,6 +150,7 @@ export function BudgetTable() {
       <BTable>
         <thead>
           <tr>
+            <th>id</th>
             <th>#PO</th>
             <th>#AC</th>
             <th>Status</th>
@@ -165,6 +169,7 @@ export function BudgetTable() {
         <tbody>
           {orders.map(order => (
             <tr key={order.id}>
+              <td>{order.id}</td>
               <td>{order.po}</td>
               <td>{order.ac}</td>
               <td>{order.status}</td>

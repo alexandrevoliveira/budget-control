@@ -32,8 +32,6 @@ export const FilterTable = styled.div`
   }
 `;
 
-
-
 export const BTable = styled.table`
   text-align: center;
   font-size: .75rem;
