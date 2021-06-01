@@ -1,5 +1,4 @@
 /node_modules/
 package-lock.json
-src/config/**
 /src/lib
 yarn.lock
