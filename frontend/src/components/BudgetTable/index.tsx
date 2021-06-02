@@ -26,9 +26,10 @@ export function BudgetTable() {
   const [pages, setPages] = useState<number[]>([]);
   const [totalPages, setTotalPages] = useState(1)
   const [currentPage, setCurrentPage] = useState(1);
+  const [filter, setFilter] = useState('');
 
   useEffect(() => {
-    api.get(`/pedidos`)
+    api.get(`/pedidos?filter=${filter}`)
       .then(response => {
         setTotal(response.data.allOrdersLength);
         
@@ -50,12 +51,16 @@ export function BudgetTable() {
         setPages(arrayPages);
         setOrders(response.data.orders.slice(initial,offset));
       });
-  }, [limit, total, currentPage, totalPages]);
+  }, [limit, total, currentPage, totalPages, filter]);
 
   const limits = useCallback((e) => {
     setLimit(e.target.value);
     setCurrentPage(1);
   }, []);
+
+  const filterBudgetist = useCallback(e => {
+    setFilter(e.target.value)
+  }, [])
 
   return (
     <Container className="budget-table">
@@ -66,35 +71,10 @@ export function BudgetTable() {
       <FilterTable>
         <div className="fields">
           <p>Orcamentista</p>
-          <input type="text"/>
-        </div>
-        <div className="fields">
-          <p>Orcamentista</p>
-          <input type="text"/>
-        </div>
-        <div className="fields">
-          <p>Orcamentista</p>
-          <input type="text"/>
-        </div>
-        <div className="fields">
-          <p>Orcamentista</p>
-          <input type="text"/>
-        </div>
-        <div className="fields">
-          <p>Orcamentista</p>
-          <input type="text"/>
-        </div>
-        <div className="fields">
-          <p>Orcamentista</p>
-          <input type="text"/>
-        </div>
-        <div className="fields">
-          <p>Orcamentista</p>
-          <input type="text"/>
-        </div>
-        <div className="fields">
-          <p>Orcamentista</p>
-          <input type="text"/>
+          <input
+            type="text"
+            onChange={filterBudgetist}
+          />
         </div>
       </FilterTable>
 
@@ -131,7 +111,6 @@ export function BudgetTable() {
             {currentPage < totalPages && (
               <PaginationItem onClick={() => setCurrentPage(totalPages)}>
                 {'>>'}
-                {console.log(totalPages)}
               </PaginationItem>
             )}
           </PaginationButton>
@@ -224,7 +203,6 @@ export function BudgetTable() {
             {currentPage < totalPages && (
               <PaginationItem onClick={() => setCurrentPage(totalPages)}>
                 {'>>'}
-                {console.log(totalPages)}
               </PaginationItem>
             )}
           </PaginationButton>
