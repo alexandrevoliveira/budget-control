@@ -59,7 +59,8 @@ export function BudgetTable() {
   }, []);
 
   const filterBudgetist = useCallback(e => {
-    setFilter(e.target.value)
+    setFilter(e.target.value);
+    setCurrentPage(1);
   }, [])
 
   return (
