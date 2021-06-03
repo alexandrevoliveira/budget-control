@@ -26,7 +26,7 @@ export function BudgetTable() {
   const [pages, setPages] = useState<number[]>([]);
   const [totalPages, setTotalPages] = useState(1)
   const [currentPage, setCurrentPage] = useState(1);
-  const [filter, setFilter] = useState('');
+  const [filter, setFilter] = useState({});
 
   useEffect(() => {
     api.get(`/pedidos?filter=${filter}`)
@@ -57,11 +57,7 @@ export function BudgetTable() {
     setLimit(e.target.value);
     setCurrentPage(1);
   }, []);
-
-  const filterBudgetist = useCallback(e => {
-    setFilter(e.target.value);
-    setCurrentPage(1);
-  }, [])
+  console.log(filter)
 
   return (
     <Container className="budget-table">
@@ -74,9 +70,46 @@ export function BudgetTable() {
           <p>Orcamentista</p>
           <input
             type="text"
-            onChange={filterBudgetist}
+            name="budgetist"
+            onChange={e => {    
+              setFilter({...filter, [e.target.name]: e.target.value});
+              setCurrentPage(1);
+            }}
           />
         </div>
+        <div className="fields">
+          <p>Empresa</p>
+          <input
+            type="text"
+            name="company"
+            onChange={e => {    
+              setFilter({...filter, [e.target.name]: e.target.value});
+              setCurrentPage(1);
+            }}
+          />
+        </div>
+        <div className="fields">
+          <p>Status</p>
+          <input
+            type="text"
+            name="status"
+            onChange={e => {    
+              setFilter({...filter, [e.target.name]: e.target.value});
+              setCurrentPage(1);
+            }}
+          />
+        </div>
+        <div className="fields">
+          <p>Etapa</p>
+          <input
+            type="text"
+            name="stage"
+            onChange={e => {    
+              setFilter({...filter, [e.target.name]: e.target.value});
+              setCurrentPage(1);
+            }}
+          />
+        </div>      
       </FilterTable>
 
       <Pagination>
