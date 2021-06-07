@@ -10,23 +10,21 @@ module.exports = {
             const getParamsAsObject = (query) => {
                 query = query.replace(/[{}\s]/g, "").split(",")
 
-                const array2 = query.map(filter => filter.replace(/["\s]/g, "").split(":"))
+                const arrayOfParams = query.map(filter => filter.replace(/["\s]/g, "").split(":"))
 
                 let object = {}
-                array2.forEach(element => {
+                arrayOfParams.forEach(param => {
                     object = {
                         ...object,
-                        [element[0]]: element[1]
+                        [param[0]]: param[1]
                     }
                 })
-
                 return object;
             };
             
-            filter ? filter = getParamsAsObject(filter) : filter = null 
-            console.log(filter)
+            filter ? filter = getParamsAsObject(filter) : filter = null
 
-            let orders = await Order.search({filter})
+            let orders = await Order.search(filter)
             let allOrdersLength = orders.length 
  
             return res.status(200).json({orders, allOrdersLength})

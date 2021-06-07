@@ -7,7 +7,7 @@ module.exports = class Order extends Base {
         super({ table: 'orders' })
     }
 
-    async search({ filter }) {
+    async search(filter) {
 
         let query = `
             SELECT *
@@ -16,12 +16,12 @@ module.exports = class Order extends Base {
         `
 
         if (filter) {
-            query += ` 
-                AND orders.budgetist ilike '%${filter}%'
-            `
+            Object.keys(filter).map(field => {
+                query += ` AND ${field} ilike '%${filter[field]}%'`
+            })
         }
 
-        query += ` ORDER BY orders.id`
+        query += ` ORDER BY id`
         
         const results = await db.query(query)
         return results.rows
