@@ -27,9 +27,10 @@ export function BudgetTable() {
   const [totalPages, setTotalPages] = useState(1)
   const [currentPage, setCurrentPage] = useState(1);
   const [filter, setFilter] = useState({});
+  const [urlFilter, setUrlFilter] = useState<(null | string)>('');
 
   useEffect(() => {
-    api.get(`/pedidos?filter=${filter}`)
+    api.get(`/pedidos${urlFilter}`)
       .then(response => {
         setTotal(response.data.allOrdersLength);
         
@@ -50,14 +51,19 @@ export function BudgetTable() {
         
         setPages(arrayPages);
         setOrders(response.data.orders.slice(initial,offset));
+
+        if(JSON.stringify(filter) === '{}') {
+          setUrlFilter('');
+        } else {
+          setUrlFilter(`?filter=${JSON.stringify(filter)}`);
+        }
       });
-  }, [limit, total, currentPage, totalPages, filter]);
+  }, [limit, total, currentPage, totalPages, filter, urlFilter]);
 
   const limits = useCallback((e) => {
     setLimit(e.target.value);
     setCurrentPage(1);
   }, []);
-  console.log(filter)
 
   return (
     <Container className="budget-table">
