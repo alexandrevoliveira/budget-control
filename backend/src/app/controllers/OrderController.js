@@ -7,7 +7,24 @@ module.exports = {
         try {
             let { filter } = req.query
 
-            if (!filter) filter = null
+            const getParamsAsObject = (query) => {
+                query = query.replace(/[{}\s]/g, "").split(",")
+
+                const array2 = query.map(filter => filter.replace(/["\s]/g, "").split(":"))
+
+                let object = {}
+                array2.forEach(element => {
+                    object = {
+                        ...object,
+                        [element[0]]: element[1]
+                    }
+                })
+
+                return object;
+            };
+            
+            filter ? filter = getParamsAsObject(filter) : filter = null 
+            console.log(filter)
 
             let orders = await Order.search({filter})
             let allOrdersLength = orders.length 
